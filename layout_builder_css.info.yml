@@ -1,0 +1,7 @@
+name: Layout Builer CSS
+description: Provide Interface to add new styles.
+package: Custom
+type: module
+core: 8.x
+dependencies:
+  - drupal:layout_builder

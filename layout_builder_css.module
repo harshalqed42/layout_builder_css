@@ -1,0 +1,77 @@
+<?php
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\layout_builder\SectionComponent;
+/**
+ * Implements hook_form_alter().
+ *
+ * Modify the configuration form for layout builder components (blocks).
+ */
+function layout_builder_css_form_alter(&$form, FormStateInterface $formState) {
+   if ($form['#form_id'] === 'layout_builder_add_block' || $form['#form_id'] === 'layout_builder_update_block') {
+    // Form object will be AddBlockForm or UpdateBlockForm, depending on
+    // the operation.
+
+    $formObject = $formState->getFormObject();
+    $blockPluginId = $formObject
+      ->getBlock()
+      ->getPluginId();
+
+   /** @var \Drupal\layout_builder\SectionComponent $component */
+   $component = $formObject
+       ->getSectionStorage()
+       ->getSection($formObject->getDelta())
+       ->getComponent($formObject->getUuid());
+   $selectedCss = $component->get('layout_builder_css_style');
+
+   _layout_builder_css_add_style_selection_form_element($form, $formState, $selectedCss);
+   array_unshift($form['#submit'], '_layout_builder_css_submit_block_form');
+
+
+
+   }
+}
+
+/**
+ * Add a style selection form element to an existing form.
+ *
+ * @param array $form
+ *   The form array to add to.
+ * @param array $styleOptions
+ *   The style options to make available.
+ * @param mixed $selectedStyle
+ *   The existing selected style(s), either a string or array.
+ */
+function _layout_builder_css_add_style_selection_form_element(array &$form, $formState, $selectedCss) {
+  // Set form actions to a high weight, just so that we can make our form
+  // style element appear right before them.
+
+  $form['actions']['#weight'] = 100;
+  $form['layout_builder_css'] = [
+    '#type' => 'textarea',
+    '#title' => t('CSS'),
+    '#default_value' => $selectedCss,
+    '#required' => FALSE,
+    '#weight' => 90,
+  ];
+}
+
+
+
+/**
+ * Custom submit handler for submitting LB block forms.
+ *
+ * Persists the configured block style to the component configuration data,
+ * which is later persisted to section storage by layout builder's base form.
+ */
+function _layout_builder_css_submit_block_form(array $form, FormStateInterface $formState) {
+    $formObject = $formState->getFormObject();
+  
+    /** @var \Drupal\layout_builder\SectionComponent $component */
+    $component = $formObject
+      ->getSectionStorage()
+      ->getSection($formObject->getDelta())
+      ->getComponent($formObject->getUuid());
+    $layout_builder_css =  $formState->getValue('layout_builder_css');
+
+    $component->set('layout_builder_css_style', $layout_builder_css);
+}
