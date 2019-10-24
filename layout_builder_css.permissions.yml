@@ -1,0 +1,4 @@
+administer css layout builder:
+  title: 'Administer CSS Layout Builder assets'
+  description: 'Add CSS to desired layouts.'
+  restrict access: true

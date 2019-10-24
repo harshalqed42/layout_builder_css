@@ -1,0 +1,13 @@
+layout_builder_css.css.*:
+  type: config_entity
+  label: 'Css Injector config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    code:
+      type: text
+      label: 'Entered CSS'

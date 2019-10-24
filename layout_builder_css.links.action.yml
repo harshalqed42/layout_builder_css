@@ -1,0 +1,6 @@
+entity.layout_builder_css_css.add_form:
+  route_name: 'entity.layout_builder_css_css.add_form'
+  title: 'Add Layout Builder CSS Injector'
+  appears_on:
+    - entity.layout_builder_css_css.collection
+

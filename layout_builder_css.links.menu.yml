@@ -1,0 +1,12 @@
+layout_builder_css.development:
+  title: 'Layout Builder Css'
+  route_name: layout_builder_css.development
+  description: 'Add assets to the page output based on configurable rules.'
+  parent: system.admin_config_development
+
+entity.layout_builder_css_css.collection:
+  title: 'Add Layout Builder CSS Injector'
+  route_name: entity.layout_builder_css_css.collection
+  description: 'Add CSS to the page output based on configurable rules.'
+  parent: layout_builder_css.development
+

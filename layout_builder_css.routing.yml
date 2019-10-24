@@ -1,0 +1,74 @@
+layout_builder_css.development:
+  path: '/admin/config/development/layout-builder-css'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Layout Builder Css'
+  requirements:
+    _permission: 'administer css layout builder'
+
+# AssetInjectorCss routing definition
+entity.layout_builder_css_css.collection:
+  path: '/admin/config/development/layout-builder-css/css'
+  defaults:
+    _entity_list: 'layout_builder_css_css'
+    _title: 'Css Injector'
+  requirements:
+    _permission: 'administer css layout builder'
+
+entity.layout_builder_css_css.add_form:
+  path: '/admin/config/development/layout-builder-css/css/add'
+  defaults:
+    _entity_form: 'layout_builder_css_css.add'
+    _title: 'Add Css Injector'
+  requirements:
+    _permission: 'administer css layout builder'
+
+entity.layout_builder_css_css.edit_form:
+  path: '/admin/config/development/layout-builder-css/css/{layout_builder_css_css}'
+  defaults:
+    _entity_form: 'layout_builder_css_css.edit'
+    _title: 'Edit Css Injector'
+  requirements:
+    _permission: 'administer css layout builder'
+
+entity.layout_builder_css_css.canonical:
+  path: '/admin/config/development/layout-builder-css/css/{layout_builder_css_css}'
+  defaults:
+    _entity_form: 'layout_builder_css_css.edit'
+    _title: 'Edit Css Injector'
+  requirements:
+    _permission: 'administer css layout builder'
+
+entity.layout_builder_css_css.delete_form:
+  path: '/admin/config/development/layout-builder-css/css/{layout_builder_css_css}/delete'
+  defaults:
+    _entity_form: 'layout_builder_css_css.delete'
+    _title: 'Delete Css Injector'
+  requirements:
+    _permission: 'administer css layout builder'
+
+entity.layout_builder_css_css.enable:
+  path: '/admin/config/development/layout-builder-css/css/{layout_builder_css_css}/enable'
+  defaults:
+    _entity_form: 'layout_builder_css_css.enable'
+    _title: 'Enable Css Injector'
+  requirements:
+    _permission: 'administer css layout builder'
+
+entity.layout_builder_css_css.disable:
+  path: '/admin/config/development/layout-builder-css/css/{layout_builder_css_css}/disable'
+  defaults:
+    _entity_form: 'layout_builder_css_css.disable'
+    _title: 'Disable Css Injector'
+  requirements:
+    _permission: 'administer css layout builder'
+
+entity.layout_builder_css_css.duplicate_form:
+  path: '/admin/config/development/layout-builder-css/css/{layout_builder_css_css}/duplicate'
+  defaults:
+    _entity_form: 'layout_builder_css_css.duplicate'
+    _title: 'Duplicate CSS Injector'
+  requirements:
+    _permission: 'administer css layout builder'
+
+
