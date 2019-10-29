@@ -1,4 +1,7 @@
 <?php
+
+use Drupal\Core\File\FileSystem;
+
 /**
  * @file
  * Contains install and uninstall hooks.
@@ -13,7 +16,7 @@ function layout_builder_css_requirements($phase) {
   $directory = file_stream_wrapper_uri_normalize($uri);
   file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
   $requirements['layout_builder_css'] = [
-    'title' => t('Asset Injector'),
+    'title' => t('Layout Builder Css'),
     'value' => is_writable($directory) ? t('Directory is writable') : t('Directory not writable'),
     'description' => t('%directory should have write access.', ['%directory' => $directory]),
     'severity' => is_writable($directory) ? REQUIREMENT_OK : REQUIREMENT_ERROR,
@@ -21,11 +24,10 @@ function layout_builder_css_requirements($phase) {
   return $requirements;
 }
 
+
 /**
  * Implements hook_uninstall().
  */
 function layout_builder_css_uninstall() {
-  $uri = 'public://layout_builder_css';
-  $directory = file_stream_wrapper_uri_normalize($uri);
-  file_unmanaged_delete_recursive($directory);
+  file_unmanaged_delete_recursive('public://layout_builder_css');
 }

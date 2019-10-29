@@ -63,6 +63,7 @@ function _layout_builder_css_add_style_selection_form_element(array &$form, $for
   // ];
   $form['layout_builder_css']['#attributes']['data-ace-mode'] = 'css';
   $form['#attached']['library'][] = 'layout_builder_css/ace-editor';
+//  $form['#cache']['contexts'][] = 'url.path';
 }
 
 
@@ -84,12 +85,18 @@ function _layout_builder_css_submit_block_form(array $form, FormStateInterface $
     $component->set('layout_builder_css_style', $formState->getValue('layout_builder_css'));
     // create an config entity of type layout builder css and store the css
     $values = $formState->getValues();
-
+    $cid = $component->get('configuration')['id'];
         if (($form['#form_id'] === 'layout_builder_update_block') &&
             $formState->getValue('css_id') && $layout_builder_css = \Drupal::entityTypeManager()->getStorage('layout_builder_css_css')->load($formState->getValue('css_id'))
         ) {
             $values = $formState->getValues();
-            $layout_builder_css->code = getPrefixedCss($formState->getValue('layout_builder_css'), '.block-views-blocktest-article-block-1');
+            //block-content811537e4-f674-474a-acda-90a52d252482
+            //[replace colon with ‘’]
+            //[replace _ with -]
+            //[append block id with block-
+            $config_id = '.block-'. str_replace([':','_'],['','-'], $cid);
+           // $layout_builder_css->code = getPrefixedCss($formState->getValue('layout_builder_css'), '.block-views-blocktest-article-block-1');
+            $layout_builder_css->code = getPrefixedCss($formState->getValue('layout_builder_css'), $config_id);
             $layout_builder_css->label = ($values['settings']['label']) ? $values['settings']['label'] : $values['settings']['views_label'];
             $layout_builder_css->save();
             $storage_file = new LayoutBuilderCssFileStorage($layout_builder_css);
@@ -108,7 +115,9 @@ function _layout_builder_css_submit_block_form(array $form, FormStateInterface $
                     $i++;
                     $data['id'] = $data['id'] . '_' . $i;
                 }
-                $data['code'] = getPrefixedCss($formState->getValue('layout_builder_css'), '.block-views-blocktest-article-block-1');
+                $config_id = '.block-'. str_replace([':','_'],['','-'], $cid);
+                // $layout_builder_css->code = getPrefixedCss($formState->getValue('layout_builder_css'), '.block-views-blocktest-article-block-1');
+                $data['code'] = getPrefixedCss($formState->getValue('layout_builder_css'), $config_id);
                 $data['status'] = TRUE;
                 $data['getoriginalId'] = $data['id'];
                 $data['nodeType'] = 'css';

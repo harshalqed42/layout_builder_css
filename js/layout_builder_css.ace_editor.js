@@ -1,11 +1,11 @@
 /**
  * @file
- * Asset Injector applies Ace Editor to simplify work.
+ * Layout Builder CSS applies Ace Editor to simplify work.
  */
 
 (function ($, Drupal) {
   'use strict';
-  Drupal.behaviors.assetInjector = {
+  Drupal.behaviors.layout_builder_css = {
     attach: function (context, settings) {
       if (typeof ace == 'undefined' || typeof ace.edit != 'function') {
         return;
