@@ -14,6 +14,7 @@ function layout_builder_css_form_alter(&$form, FormStateInterface $formState) {
     // Form object will be AddBlockForm or UpdateBlockForm, depending on
     // the operation.
   //@todo On, Add Block  caching issue persists.
+       //@todo after save it should immediately reflect on node view page
        //@todo to work on reusable blocks task
     $formObject = $formState->getFormObject();
     $blockPluginId = $formObject
@@ -62,8 +63,7 @@ function _layout_builder_css_add_style_selection_form_element(array &$form, $for
     ];
   // ];
   $form['layout_builder_css']['#attributes']['data-ace-mode'] = 'css';
-  $form['#attached']['library'][] = 'layout_builder_css/ace-editor';
-//  $form['#cache']['contexts'][] = 'url.path';
+  $form['layout_builder_css']['#attached']['library'][] = 'layout_builder_css/layout-builder-css-script';
 }
 
 
@@ -99,11 +99,11 @@ function _layout_builder_css_submit_block_form(array $form, FormStateInterface $
             $layout_builder_css->code = getPrefixedCss($formState->getValue('layout_builder_css'), $config_id);
             $layout_builder_css->label = ($values['settings']['label']) ? $values['settings']['label'] : $values['settings']['views_label'];
             $layout_builder_css->save();
-            $storage_file = new LayoutBuilderCssFileStorage($layout_builder_css);
+          //  $storage_file = new LayoutBuilderCssFileStorage($layout_builder_css);
             $component->set('layout_builder_css_style', $layout_builder_css->code);
             $component->set('layout_builder_css_id', $formState->getValue('css_id'));
             $component->set('layout_builder_css_internal_uri', $formState->getValue('css_internal_uri'));
-            $storage_file->updateFile($component->get('layout_builder_css_internal_uri'));
+         //   $storage_file->updateFile($component->get('layout_builder_css_internal_uri'));
 
         }
         else {
@@ -126,8 +126,7 @@ function _layout_builder_css_submit_block_form(array $form, FormStateInterface $
                 $component->set('layout_builder_css_style', $data['code']);
                 $component->set('layout_builder_css_id', $layout_builder_css->id);
 
-                $storage_file = new LayoutBuilderCssFileStorage($layout_builder_css);
-                $internal_uri = $storage_file->createFile();
+               //$storage_file = new LayoutBuilderCssFileStorage($layout_builder_css);
                 $component->set('layout_builder_css_internal_uri', $internal_uri);
             }
     }
@@ -166,10 +165,10 @@ function getPrefixedCss($css,$prefix){
             $part = implode(', ', $subParts)."{".$partDetails[1];
         }
     }
-
     $prefixedCss = implode("}\n", $parts);
+    $trim_prefixedCss = rtrim((string) $prefixedCss);
 
-    return $prefixedCss;
+    return $trim_prefixedCss;
 }
 
 function layout_builder_css_get_entity_types(array $types = []) {
