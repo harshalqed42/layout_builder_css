@@ -10,6 +10,9 @@ use Drupal\Core\Asset\AttachedAssetsInterface;
  * Modify the configuration form for layout builder components (blocks).
  */
 function layout_builder_css_form_alter(&$form, FormStateInterface $formState) {
+    if (strpos($form['#form_id'], '_layout_builder_form') || ($form['#form_id'] === 'layout_builder_add_block' || $form['#form_id'] === 'layout_builder_update_block')) {
+      $form['#attached']['library'][] = 'layout_builder_css/layout-builder-css-script';
+    }
    if ($form['#form_id'] === 'layout_builder_add_block' || $form['#form_id'] === 'layout_builder_update_block') {
     // Form object will be AddBlockForm or UpdateBlockForm, depending on
     // the operation.
@@ -31,8 +34,6 @@ function layout_builder_css_form_alter(&$form, FormStateInterface $formState) {
    $internalUri = $component->get('layout_builder_css_internal_uri');
    _layout_builder_css_add_style_selection_form_element($form, $formState, $selectedCss, $css_id, $internalUri);
    array_unshift($form['#submit'], '_layout_builder_css_submit_block_form');
-
-
    }
 }
 
@@ -63,7 +64,6 @@ function _layout_builder_css_add_style_selection_form_element(array &$form, $for
     ];
   // ];
   $form['layout_builder_css']['#attributes']['data-ace-mode'] = 'css';
-  $form['layout_builder_css']['#attached']['library'][] = 'layout_builder_css/layout-builder-css-script';
 }
 
 
